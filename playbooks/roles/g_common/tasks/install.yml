@@ -1,0 +1,37 @@
+- apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - pavucontrol
+    - mpv
+    - viewnior
+    - feh
+    - pcmanfm
+    - firefox-esr
+    - xarchiver
+    - rxvt-unicode-256color
+    - xsel
+  become: yes
+  when: ansible_distribution == "Debian"
+
+- dnf:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - pavucontrol
+    - mpv
+    - viewnior
+    - feh
+    - pcmanfm
+    - firefox
+    - xarchiver
+    - rxvt-unicode-256color
+    - xsel
+  become: yes
+  when: ansible_distribution == "Fedora"
+
+#- name: update alternatives
+#  alternatives: name=x-terminal-emulator path=/usr/bin/urxvt
+#  become: yes

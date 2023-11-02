@@ -1,0 +1,2 @@
+playbooks/files/app_keys/*
+playbooks/group_vars/all/vault_key.yml

@@ -1,0 +1,31 @@
+execute pathogen#infect()
+
+syntax {{ user.config.neovim.vimrc.syntax|default(enable) }}
+
+{%if user.config.neovim.vimrc.set is defined %}
+{%for option in user.config.neovim.vimrc.set %}
+set {{ option }}
+{%endfor%}
+{%endif%}
+
+{%if user.config.neovim.vimrc.let is defined %}
+{%for option in user.config.neovim.vimrc.let %}
+let {{ option }}
+{%endfor%}
+{%endif%}
+
+{%if user.config.neovim.colorscheme is defined %}
+colorscheme {{ user.config.neovim.colorscheme }}
+{%endif%}
+
+{%if user.config.neovim.vimrc.map is defined %}
+{%for mapping in user.config.neovim.vimrc.map %}
+map <{{ mapping.key }}> {{ mapping.cmd }}
+{%endfor%}
+{%endif%}
+
+{%if user.config.neovim.lightline is defined %}
+let g:lightline = {
+  \ 'colorscheme': '{{ user.config.neovim.lightline.colorscheme|default(default) }}'
+  \ }
+{%endif%}

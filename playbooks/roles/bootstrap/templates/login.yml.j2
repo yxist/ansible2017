@@ -1,0 +1,11 @@
+---
+
+ansible_ssh_user: "{{ bootstrap_ssh_user }}"
+{% if ansible_ssh_host != inventory_hostname%}
+ansible_ssh_host: "{{ ansible_ssh_host }}"
+{% endif %}
+{% if bootstrap_ssh_port != 22 %}
+ansible_ssh_port: "{{ bootstrap_ssh_port }}"
+{% endif %}
+ansible_ssh_private_key_file: "{{ playbook_dir }}/files/ssh/{{ bootstrap_ssh_key }}"
+ansible_become_method: "sudo"

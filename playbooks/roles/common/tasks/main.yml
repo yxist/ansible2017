@@ -1,0 +1,31 @@
+---
+- include: pkgs_debian.yml
+  when: ansible_distribution == 'Debian'
+- include: pkgs_centos.yml
+  when: ansible_distribution == 'CentOS'
+- include: pkgs_fedora.yml
+  when: ansible_distribution == 'Fedora'
+
+- name: weird bug workaround 1/2 (pip)
+  shell: cp /usr/bin/pip3 /usr/bin/pip3.bak creates=/usr/bin/pip3.bak
+  become: yes
+  changed_when: false
+
+- name: update pip2
+  pip:
+    name: "pip"
+    executable: pip2
+    state: latest
+  become: yes
+
+- name: weird bug workaround 2/2 (pip)
+  shell: mv /usr/bin/pip3.bak /usr/bin/pip3 || true
+  become: yes
+  changed_when: false
+
+- name: update pip3
+  pip:
+    name: "pip"
+    executable: pip3
+    state: latest
+  become: yes

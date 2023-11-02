@@ -1,0 +1,25 @@
+---
+- name: ensure ~/.config/zsh exists
+  file:
+    path: "~/.config/zsh"
+    state: directory
+
+- name: get antigen
+  git:
+    repo: "https://github.com/zsh-users/antigen.git"
+    dest: "~/.local/lib/antigen"
+
+- name: generate ~/.zshrc
+  template:
+    src: "zshrc.j2"
+    dest: "~/.zshrc"
+  register: generate_zshrc
+
+- name: update antigen plugins
+  shell: zsh -i -c 'antigen update'
+  when: generate_zshrc.changed
+
+- name: generate colorscheme file
+  template:
+    src: "colors.j2"
+    dest: "~/.config/zsh/colors.sh"

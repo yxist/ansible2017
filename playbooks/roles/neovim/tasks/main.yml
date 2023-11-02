@@ -1,0 +1,11 @@
+- name: install neovim
+  include: install.yml
+
+- name: user specific configuration
+  include: user.yml
+  become: yes
+  become_user: "{{ user.name }}"
+  loop_control:
+    loop_var: user
+  with_items: "{{ users }}"
+  when: "'neovim' in user.configure_items"

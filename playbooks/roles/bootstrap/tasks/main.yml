@@ -1,0 +1,61 @@
+---
+- name: install ansible prereqs
+  script: files/install_prereqs.sh
+  become: true
+  register: ansible_prereqs_result
+  changed_when: "'ANSIBLE_CHANGE' in ansible_prereqs_result.stdout"
+  failed_when: "'ANSIBLE_FAIL' in ansible_prereqs_result.stdout"
+
+- name: gather facts
+  setup: ""
+
+- local_action: shell pwgen -cns 32 1
+  register: pass
+  changed_when: false
+
+- name: ensure host_vars/{{ inventory_hostname }} exists
+  local_action: file path={{ playbook_dir }}/host_vars/{{ inventory_hostname }} state=directory
+
+- name: ensure sudo is installed
+  package:
+    state: present
+    name: sudo
+  become: true
+
+- name: ensure ansible user exists
+  user:
+    name: "{{ bootstrap_ssh_user }}"
+    state: present
+    password: "{{ pass|password_hash('sha512') }}"
+    append: yes
+  become: true
+
+- name: add user to sudoers
+  template:
+    src: sudoers.d.j2
+    dest: /etc/sudoers.d/ansible_user
+
+- name: add ssh key
+  authorized_key:
+    user: "{{ bootstrap_ssh_user }}"
+    key: "{{ lookup('file', '{{ item }}') }}"
+    state: present
+  with_items:
+    - "{{ playbook_dir }}/files/ssh_keys/{{ bootstrap_ssh_key }}.pub"
+  become: true
+
+- name: secure sshd
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: "present"
+  with_items:
+    - { regexp: "^PermitRootLogin", line: "PermitRootLogin no" }
+    - { regexp: "^PasswordAuthentication", line: "PasswordAuthentication no" }
+    - { regexp: "^Port", line: "Port {{ bootstrap_ssh_port }}" }
+  become: true
+  notify: restart sshd
+
+- name: save login settings
+  local_action: template src=templates/login.yml.j2 dest={{ playbook_dir }}/host_vars/{{ inventory_hostname }}/login.yml

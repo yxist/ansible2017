@@ -1,0 +1,3 @@
+---
+username_prefix: ansible_
+ssh_key_prefix: app_keys/ssh_{{ username_prefix }}

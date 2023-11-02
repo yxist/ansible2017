@@ -1,0 +1,25 @@
+---
+
+- name: install i3situation
+  pip:
+    name: 'git+https://xdd.sk/s/gogs/pheey/i3situation@develop' 
+    editable: false
+    executable: pip3
+    extra_args: "--user"
+    state: latest
+
+- name: ensure i3 configuration folders exists
+  file: path={{ item }} state=directory recurse=yes
+  with_items:
+    - "~/.config/i3/"
+    - "~/.config/i3situation/"
+
+- name: configure i3
+  template: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: "config.j2", dest: "~/.config/i3/config" }
+    - { src: "i3situation_config.j2", dest: "~/.config/i3situation/config" }
+
+
+- name: Make sure ~/.i3 does not exist
+  file: path=~/.i3 state=absent

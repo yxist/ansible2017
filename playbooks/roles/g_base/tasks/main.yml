@@ -1,0 +1,11 @@
+---
+
+- name: install packages
+  include: install.yml
+  become: yes
+
+- name: systemd set default boot to graphical
+  shell: systemctl set-default graphical.target
+  become: yes
+  register: set_default_register
+  changed_when: set_default_register.stdout != ""

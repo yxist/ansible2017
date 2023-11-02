@@ -1,0 +1,34 @@
+- name: ensure user exists
+  user:
+    name: "{{ user.name }}"
+    password: "{{ user.password }}"
+    groups: "{{ user.groups }}"
+    state: "{{ user.state }}"
+    shell: "{{ user.shell }}"
+    append: yes
+  become: yes
+
+- name: add ssh keys
+  authorized_key:
+    key: "{{ item.key }}"
+    state: "{{ item.state }}"
+    user: "{{ user.name }}"
+  with_items: "{{ user.ssh_pubkeys }}"
+  when: user.ssh_pubkeys is defined
+  become: yes
+
+- name: give sudo access
+  user:
+    name: "{{ user.name }}"
+    groups: "wheel"
+    append: yes
+  become: yes
+  when: user.sudo and (ansible_distribution == "Fedora" or ansible_distribution == "CentOS")
+
+- name: give sudo access
+  user:
+    name: "{{ user.name }}"
+    groups: "sudo"
+    append: yes
+  become: yes
+  when: user.sudo and ansible_distribution == "Debian"

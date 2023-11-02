@@ -1,0 +1,6 @@
+deb {{ deb_mirror }} {{ deb_suite }} main
+deb {{ deb_mirror }} {{ deb_suite }}-updates main
+{% if deb_backports is sameas true %}
+deb {{ deb_mirror }} {{ deb_suite }}-backports main
+{% endif %}
+deb http://security.debian.org/ {{ deb_suite }}/updates main

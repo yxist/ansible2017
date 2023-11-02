@@ -1,0 +1,5 @@
+---
+- name: setup EPEL
+  include: epel.yml
+  when: epel_enabled
+  become: yes

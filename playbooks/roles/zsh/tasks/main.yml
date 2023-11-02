@@ -1,0 +1,13 @@
+---
+- name: install zsh
+  include: install.yml
+  become: yes
+
+- name: configure users
+  include: user.yml
+  become: yes
+  become_user: "{{ user.name }}"
+  when: user.shell == '/bin/zsh'
+  loop_control:
+    loop_var: "user"
+  with_items: "{{ users }}"

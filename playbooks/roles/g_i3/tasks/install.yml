@@ -1,0 +1,24 @@
+- apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - i3-wm
+    - i3lock
+    - suckless-tools
+    - dunst
+    - hsetroot
+    - compton
+    - python3-psutil
+  when: ansible_distribution == "Debian"
+
+- dnf:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - i3
+    - i3lock
+    - dunst
+    - python3-psutil
+#   - xcompmgr # compton replacement

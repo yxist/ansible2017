@@ -1,0 +1,6 @@
+---
+- name: config user
+  include: user.yml
+  with_items: "{{ users }}"
+  loop_control:
+    loop_var: "user"

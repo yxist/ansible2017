@@ -1,0 +1,24 @@
+---
+- name: check if rpmfusion-free is configured
+  stat: path={{ rpmfusion_repofile_path.free }}
+  register: rpmfusion_repofile_result
+
+- name: install rpmfusion-free repo
+  dnf:
+    name: "{{ rpmfusion_repo_url.free }}"
+    state: present
+  when: not rpmfusion_repofile_result.stat.exists
+
+- name: import rpmfusion-free GPG key
+  rpm_key:
+    key: "{{ rpmfusion_repo_gpg_key_url.free }}"
+    state: present
+  ignore_errors: yes # weird bug workaround
+  register: import_gpg
+  when: not rpmfusion_repofile_result.stat.exists
+
+- name: import rpmfusion-free GPG key [retry]
+  rpm_key:
+    key: "{{ rpmfusion_repo_gpg_key_url.free }}"
+    state: present
+  when: (not rpmfusion_repofile_result.stat.exists) and import_gpg|failed

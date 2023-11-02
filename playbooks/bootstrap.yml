@@ -1,0 +1,8 @@
+---
+
+- name: First time host setup
+  gather_facts: no
+  hosts: bootstrap
+  roles:
+    - bootstrap
+

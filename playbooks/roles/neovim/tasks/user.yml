@@ -1,0 +1,25 @@
+- name: make sure ~/.config/nvim/autoload/ directory exist
+  file:
+    path: "~/.config/nvim/autoload/"
+    state: directory
+    recurse: yes
+
+- name: get pathogen.vim
+  get_url:
+    url: "{{ neovim_pathogen_url }}"
+    dest: "~/.config/nvim/autoload/pathogen.vim"
+    checksum: "sha256:d5214f90492a55c802472602b4eb9f02cf322073c964eb4d42397bb4093c9e22"
+  become: yes
+
+- name: template init.vim
+  template:
+    src: init.vim.j2
+    dest: "~/.config/nvim/init.vim"
+
+- name: install plugins
+  git:
+    clone: yes
+    depth: 1
+    dest: "~/.config/nvim/bundle/{{ item.name }}"
+    repo: "{{ item.repo }}"
+  with_items: "{{ user.config.neovim.plugins }}"

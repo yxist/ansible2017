@@ -1,0 +1,12 @@
+---
+- name: install LightDM
+  include: install.yml
+  become: yes
+
+- name: hide ansible user
+  copy:
+    content: |
+      [User]
+      SystemAccount=true
+    dest: "/var/lib/AccountsService/users/{{ ansible_ssh_user }}"
+  become: yes

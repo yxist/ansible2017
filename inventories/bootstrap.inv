@@ -1,0 +1,5 @@
+[bootstrap]
+# hostname ansible_ssh_host=123.123.123.123 ansible_ssh_user=user bootstrap_ssh_port=22 bootstrap_ssh_key=files/app_keys/ssh_default_ed25519
+#test_cent ansible_ssh_host=192.168.122.47 ansible_ssh_user=root 
+#test_fed ansible_ssh_host=192.168.122.242 ansible_ssh_user=root 
+#ice ansible_ssh_host=192.168.123.123 ansible_ssh_user=root

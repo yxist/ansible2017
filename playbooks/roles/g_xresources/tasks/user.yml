@@ -1,0 +1,9 @@
+- name: get Xresources.d files
+  shell: ls .config/Xresources.d/*
+  register: xresources_d_ls
+  changed_when: false
+
+- name: generate .Xresources
+  template:
+    src: Xresources.j2
+    dest: "~/.Xresources"

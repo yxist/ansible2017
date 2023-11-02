@@ -1,0 +1,20 @@
+- apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+    name: "{{ item }}"
+  when: ansible_distribution == "Debian"
+  become: yes
+  with_items:
+    - neovim
+
+- dnf:
+    state: present
+    name: "{{ item }}"
+  when: ansible_distribution == "Fedora"
+  become: yes
+  with_items:
+    - neovim
+# python support
+    - python2-neovim
+    - python3-neovim

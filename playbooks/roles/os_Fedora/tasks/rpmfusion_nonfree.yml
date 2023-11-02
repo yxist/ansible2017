@@ -1,0 +1,24 @@
+---
+- name: check if rpmfusion-nonfree is configured
+  stat: path={{ rpmfusion_repofile_path.nonfree }}
+  register: rpmfusion_repofile_result
+
+- name: install rpmfusion-nonfree repo
+  dnf:
+    name: "{{ rpmfusion_repo_url.nonfree }}"
+    state: present
+  when: not rpmfusion_repofile_result.stat.exists
+
+- name: import rpmfusion-nonfree GPG key
+  rpm_key:
+    key: "{{ rpmfusion_repo_gpg_key_url.nonfree }}"
+    state: present
+  ignore_errors: yes
+  register: import_gpg
+  when: not rpmfusion_repofile_result.stat.exists
+
+- name: import rpmfusion-nonfree GPG key
+  rpm_key:
+    key: "{{ rpmfusion_repo_gpg_key_url.nonfree }}"
+    state: present
+  when: (not rpmfusion_repofile_result.stat.exists) and import_gpg|failed

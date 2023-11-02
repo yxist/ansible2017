@@ -1,0 +1,10 @@
+---
+- name: setup rpmfusion-free
+  include: rpmfusion_free.yml
+  when: rpmfusion_enabled.free
+  become: yes
+
+- name: setup rpmfusion-nonfree
+  include: rpmfusion_nonfree.yml
+  when: rpmfusion_enabled.nonfree
+  become: yes

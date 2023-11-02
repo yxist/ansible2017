@@ -1,0 +1,40 @@
+- name: install debian packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+    name: "{{ item }}"
+  with_items:
+    # monitor utils
+    - htop
+    - iotop
+    - iftop
+    - nethogs
+    - ncdu
+    - glances
+    # other useful stuff
+    - mc
+    - vim
+    - tmux
+    - bash-completion
+    - less
+    - rsync
+    - file
+    - mime-support
+    - psmisc
+    - molly-guard
+    - ntp
+    - git
+    # archive/compression tools
+    - xz-utils
+    - bzip2
+    - gzip
+    - zip
+    - unzip
+    # various interpreters
+    - python
+    - python3
+    - python-pip
+    - python3-pip
+  become: yes
+

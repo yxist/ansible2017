@@ -1,0 +1,10 @@
+---
+
+- name: configure users
+  include: user.yml
+  become: yes
+  become_user: "{{ user.name }}"
+  loop_control:
+    loop_var: user
+  with_items: "{{ users }}"
+  when: "'xresources' in user.configure_items"

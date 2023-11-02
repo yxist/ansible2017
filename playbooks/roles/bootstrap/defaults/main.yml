@@ -1,0 +1,4 @@
+hostname_salt: "CJWo2UPn" # used to generate pseudorandom usernames
+
+bootstrap_ssh_port: 22
+bootstrap_ssh_key: "{{ playbook_dir }}/files/app_keys/ssh_default_ed25519"

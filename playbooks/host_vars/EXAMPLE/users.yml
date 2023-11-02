@@ -1,0 +1,189 @@
+users:
+  - name: username
+    ssh_pubkeys:
+      - key: "INSERT SSH PUBKEY KEY HERE"
+        state: "present"
+    password: "USE MKPASSWD TO GENERATE A HASH AND PUT IT HERE"
+    groups: ""
+    shell: "/bin/zsh"
+    sudo: true
+    state: "present"
+    configure_items:
+      - artwiz_fonts
+      - powerline_fonts
+      - xresources
+      - urxvt
+      - neovim
+      - i3
+    config:
+      neovim:
+        vimrc:
+          syntax: "enable"
+          set:
+            - nowrap
+            - relativenumber
+            - noshowmode
+            - background=dark
+          let:
+            - base16colorspace=256
+          map:
+            - key: "C-n"
+              cmd: ":NERDTreeToggle<CR>"
+        plugins:
+          - name: lightline
+            repo: "https://github.com/itchyny/lightline.vim"
+          - name: base16
+            repo: "https://github.com/chriskempson/base16-vim"
+          - name: base16-lightline
+            repo: "https://github.com/daviesjamie/vim-base16-lightline"
+          - name: deoplete
+            repo: "https://github.com/Shougo/deoplete.nvim"
+          - name: nerdtree
+            repo: "https://github.com/scrooloose/nerdtree"
+          - name: nerdtree-git-plugin
+            repo: "https://github.com/Xuyuanp/nerdtree-git-plugin"
+          - name: ctrlp
+            repo: "https://github.com/ctrlpvim/ctrlp.vim"
+          - name: neomake
+            repo: "https://github.com/neomake/neomake"
+          - name: fugitive
+            repo: "https://github.com/tpope/vim-fugitive"
+          - name: gitgutter
+            repo: "https://github.com/airblade/vim-gitgutter"
+          - name: indent-guides
+            repo: "https://github.com/nathanaelkane/vim-indent-guides"
+      urxvt:
+        font: "xft:cure:size=7"
+        urgentOnBell: true
+        visualBell: true
+        scrollBar: false
+        cursorBlink: true
+      i3:
+        i3situation:
+          modules:
+            - name: "disk"
+              plugin: "disk"
+              color: "{{ base16_terminal.color8 }}"
+              crit_color: "{{ base16_terminal.color1 }}"
+            - name: "bandwidth"
+              plugin: "bandwidth"
+              interface: "{{ ansible_default_ipv4.interface }}"
+              color: "{{ base16_terminal.color8 }}"
+              traffic_color: "{{ base16_terminal.color7 }}"
+            - name: "load"
+              plugin: "load"
+              color: "{{ base16_terminal.color8 }}"
+              crit_color: "{{ base16_terminal.color1 }}"
+            - name: "memory"
+              plugin: "memory"
+              color: "{{ base16_terminal.color8 }}"
+              low_color: "{{ base16_terminal.color7 }}"
+              warn_color: "{{ base16_terminal.color3 }}"
+              crit_color: "{{ base16_terminal.color1 }}"
+            - name: "cpu"
+              plugin: "cpu"
+              color: "{{ base16_terminal.color8 }}"
+              low_color: "{{ base16_terminal.color7 }}"
+              warn_color: "{{ base16_terminal.color3 }}"
+              crit_color: "{{ base16_terminal.color1 }}"
+            - name: "date_time"
+              plugin: "date_time"
+              long_format: "%a %Y-%m-%d %H:%M:%S"
+              color: "{{ base16_terminal.color7 }}"
+    themes:
+      name: "base16 - railscasts"
+      antigen: "bureau"
+      terminal: "{{ base16_terminal }}"
+      neovim:
+        colorscheme: base16-railscasts
+        lightline:
+          colorscheme: "base16"
+      i3:
+        bg_color: "{{ base16.c2 }}"
+        font: "pango:cure 7"
+        window:
+          focused: 
+            border: "{{ base16.cD }}"
+            background: "{{ base16.cD }}"
+            text: "{{ base16.c0 }}"
+            indicator: "{{ base16.c3 }}"
+          focused_inactive:
+            border: "{{ base16.c2 }}"
+            background: "{{ base16.c2 }}"
+            text: "{{ base16.c3 }}"
+            indicator: "{{ base16.c2 }}"
+          unfocused:
+            border: "{{ base16.c1 }}"
+            background: "{{ base16.c1 }}"
+            text: "{{ base16.c3 }}"
+            indicator: "{{ base16.c1 }}"
+          urgent:
+            border: "{{ base16.c2 }}"
+            background: "{{ base16.c8 }}"
+            text: "{{ base16.c7 }}"
+            indicator: "{{ base16.c2 }}"
+        bar:
+          separator: "{{ base16.c3 }}"
+          background: "{{ base16.c1 }}"
+          statusline: "{{ base16.c5 }}"
+          workspace:
+            focused:
+              border: "{{ base16.cD }}"
+              background: "{{ base16.cD }}"
+              text: "{{ base16.c0 }}"
+            active:
+              border: "{{ base16.c2 }}"
+              background: "{{ base16.c2 }}"
+              text: "{{ base16.c7 }}"
+            inactive:
+              border: "{{ base16.c1 }}"
+              background: "{{ base16.c1 }}"
+              text: "{{ base16.c3 }}"
+            urgent:
+              border: "{{ base16.c8 }}"
+              background: "{{ base16.c8 }}"
+              text: "{{ base16.c7 }}"
+
+base16_terminal:
+  color0: "{{ base16.c0 }}"
+  color1: "{{ base16.c8 }}"
+  color2: "{{ base16.cB }}"
+  color3: "{{ base16.cA }}"
+  color4: "{{ base16.cD }}"
+  color5: "{{ base16.cE }}"
+  color6: "{{ base16.cC }}"
+  color7: "{{ base16.c5 }}"
+  color8: "{{ base16.c3 }}"
+  color9: "{{ base16.c8 }}"
+  color10: "{{ base16.cB }}"
+  color11: "{{ base16.cA }}"
+  color12: "{{ base16.cD }}"
+  color13: "{{ base16.cE }}"
+  color14: "{{ base16.cC }}"
+  color15: "{{ base16.c7 }}"
+  color16: "{{ base16.c9 }}"
+  color17: "{{ base16.cF }}"
+  color18: "{{ base16.c1 }}"
+  color19: "{{ base16.c2 }}"
+  color20: "{{ base16.c4 }}"
+  color21: "{{ base16.c6 }}"
+  foreground: "{{ base16.c5 }}"
+  background: "{{ base16.c0 }}"
+  cursor: "{{ base16.c5 }}"
+base16:
+  c0: "#2b2b2b"
+  c1: "#272935"
+  c2: "#3a4055"
+  c3: "#5a647e"
+  c4: "#d4cfc9"
+  c5: "#e6e1dc"
+  c6: "#f4f1ed"
+  c7: "#f9f7f3"
+  c8: "#da4939"
+  c9: "#cc7833"
+  cA: "#ffc66d"
+  cB: "#a5c261"
+  cC: "#519f50"
+  cD: "#6d9cbe"
+  cE: "#b6b3eb"
+  cF: "#bc9458"

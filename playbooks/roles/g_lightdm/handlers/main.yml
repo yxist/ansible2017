@@ -1,0 +1,7 @@
+---
+
+- name: start lightdm
+  service:
+    name: lightdm
+    state: started
+  become: yes

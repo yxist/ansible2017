@@ -1,0 +1,9 @@
+---
+
+- name: user specific configuration
+  include: user.yml
+  become_user: "{{ user.name }}"
+  loop_control:
+    loop_var: user
+  with_items: "{{ users }}"
+  become: yes

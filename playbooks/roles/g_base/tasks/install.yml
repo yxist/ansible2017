@@ -1,0 +1,28 @@
+- apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+    name: "{{ item }}"
+  with_items:
+    # xorg and related
+    - xorg
+    - xserver-xorg-input-all
+    - xserver-xorg-video-all
+    # sound and sound control
+    - alsa-utils
+    - pulseaudio
+  when: ansible_distribution == 'Debian'
+
+- dnf:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    # xorg and related
+    - "@base-x"
+    # sound and sound control
+    - alsa-plugins-pulseaudio
+    - alsa-utils
+    - pulseaudio
+    - pulseaudio-module-x11
+    - pulseaudio-utils
+  when: ansible_distribution == 'Fedora'

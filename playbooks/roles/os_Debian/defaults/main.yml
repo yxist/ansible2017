@@ -1,0 +1,3 @@
+deb_mirror: "http://httpredir.debian.org/debian/"
+deb_suite: "jessie"
+deb_backports: true

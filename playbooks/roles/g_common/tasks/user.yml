@@ -1,0 +1,13 @@
+---
+
+- name: ensure certain paths exist
+  file: path={{ item }} state=directory
+  with_items:
+    - ~/.config/Xresources.d
+    - ~/.local/bin
+    - ~/.local/share
+    - ~/.local/lib
+
+- name: configure urxvt
+  template: src=20-urxvt.j2 dest=~/.config/Xresources.d/20-urxvt
+  register: configure_urxvt

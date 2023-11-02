@@ -1,0 +1,33 @@
+---
+- hosts: all
+  tasks:
+    - group_by: key=os_{{ ansible_distribution }}
+
+- name: Setup Debian machines
+  hosts: os_Debian
+  roles:
+    - os_Debian
+
+- name: Setup CentOS machines
+  hosts: os_CentOS
+  roles:
+    - os_CentOS
+
+- name: Setup Fedora machines
+  hosts: os_Fedora
+  roles:
+    - os_Fedora
+
+- hosts: all
+  roles:
+    - users
+    - common
+    - zsh
+    - neovim
+    - g_base
+    - g_lightdm
+    - g_i3
+    - g_common
+    - g_xresources
+    - g_powerline_fonts
+    - g_steam

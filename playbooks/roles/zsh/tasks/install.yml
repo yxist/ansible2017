@@ -1,0 +1,16 @@
+- apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+    name: zsh
+  when: ansible_distribution == "Debian"
+
+- yum:
+    state: present
+    name: zsh
+  when: ansible_distribution == "CentOS"
+
+- dnf:
+    state: present
+    name: zsh
+  when: ansible_distribution == "Fedora"

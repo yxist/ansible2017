@@ -1,0 +1,13 @@
+---
+rpmfusion_repo_url:
+  free: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+  nonfree: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+rpmfusion_repo_gpg_key_url: 
+  free: "/etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_distribution_major_version }}"
+  nonfree: "/etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
+rpmfusion_repofile_path: 
+  free: "/etc/yum.repos.d/rpmfusion-free.repo"
+  nonfree: "/etc/yum.repos.d/rpmfusion-nonfree.repo"
+rpmfusion_enabled:
+  free: true
+  nonfree: false

@@ -1,0 +1,22 @@
+ADOTDIR=~/.local/share/antigen
+
+# Load Antigen
+source ~/.local/lib/antigen/antigen.zsh
+
+# Load colorscheme
+source ~/.config/zsh/colors.sh
+
+# Load the oh-my-zsh's library
+antigen use oh-my-zsh
+
+{% if user.config is defined and user.config.antigen is defined and user.config.antigen.bundles is defined %}
+{% for entry in user.config.antigen.bundles %}
+antigen bundle {{ entry }}
+{% endfor %}
+{% endif %}
+
+{% if user.config.antigen.theme is defined %}
+antigen theme {{ user.config.antigen.theme }}
+{% endif %}
+
+antigen apply
